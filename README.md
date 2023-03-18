@@ -50,3 +50,12 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+mysql://
+ba326c9433b5f5
+:
+8943f784
+@
+us-cdbr-east-06.cleardb.net
+/heroku_07728b6921b7f31?
+reconnect=true

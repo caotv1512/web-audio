@@ -7,14 +7,15 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Patch } from '@nestjs/common/decorators';
+import { Patch, UploadedFile, UseInterceptors } from '@nestjs/common/decorators';
 import { ProductDto } from './dto/product.dto';
 import { ProductService } from './product.service';
 import { Delete } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService) { }
 
   @Get('/')
   getAll() {
@@ -44,5 +45,11 @@ export class ProductController {
   @Delete('/:id')
   async delete(@Param('id') id) {
     await this.productService.delete(id);
+  }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
   }
 }

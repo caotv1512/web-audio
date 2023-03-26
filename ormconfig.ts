@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+import { Category } from "src/modules/category/database/category.entity";
 import { Product } from "src/modules/product/database/product.entity";
 import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
 
@@ -16,7 +17,7 @@ const config: MysqlConnectionOptions = {
   password: process.env.DB_PASSWORD || "",
   type: "mysql",
   database: process.env.DB_DATABASE || "",
-  entities: [Product],
+  entities: [Product, Category],
   synchronize: process.env.DB_SYNCHRONIZE === "true",
   namingStrategy: new SnakeNamingStrategy(),
 };

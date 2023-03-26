@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import {
   BadRequestException,
@@ -9,12 +9,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Timestamp } from 'typeorm';
 import { Product } from './database/product.entity';
 import { ProductDto } from './dto/product.dto';
+
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private productRepo: Repository<Product>,
   ) { }
+  transform(value: any, metadata: ArgumentMetadata) {
+    // "value" is an object containing the file's attributes and metadata
+    const oneKb = 1000;
+    return value.size < oneKb;
+  }
 
   async create(data: ProductDto) {
     const product = {
@@ -22,6 +28,9 @@ export class ProductService {
       image: data.image,
       price: data.price,
       description: data.description,
+      discount: data.discount,
+      shop: data.shop,
+      content: data.content,
       createdAt: new Date(),
     }
     try {
@@ -61,8 +70,11 @@ export class ProductService {
       product.image = data.image;
       product.price = data.price;
       product.description = data.description;
-      product.updatedAt = new Date(),
-        await this.productRepo.update({ id }, product);
+      product.discount = data.discount;
+      product.shop = data.shop;
+      product.content = data.content;
+      product.updatedAt = new Date();
+      await this.productRepo.update({ id }, product);
       return {
         statusCode: HttpStatus.OK,
         message: 'User updated successfully',

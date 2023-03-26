@@ -18,7 +18,15 @@ export class ProductDto {
   @IsNotEmpty()
   description: string;
 
+  @IsNumber()
+  @IsNotEmpty()
+  discount: number;
+
   @IsBoolean()
   @IsNotEmpty()
   shop: boolean = true;
+
+  @IsString()
+  @IsNotEmpty()
+  content: string;
 }
